@@ -1,12 +1,10 @@
-import sys
-
 from collections import Counter
 from typing import Iterable
 
 import click
 import regex
 
-TOKEN_PATTERN = regex.compile("(?u)\\b\\w\\w+\\b")
+TOKEN_PATTERN = regex.compile(r"(?u)\b\w\w+\b")
 
 def compte_mots(texte : Iterable[str]) -> Counter[str] : 
     res = Counter()
@@ -18,6 +16,7 @@ def compte_mots(texte : Iterable[str]) -> Counter[str] :
 @click.command()
 @click.argument("inpt")
 @click.argument("word", required=False)
+
 def main(inpt: str, word: str | None): 
     
     with open(inpt) as in_stream: 

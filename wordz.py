@@ -3,6 +3,7 @@ import sys
 from collections import Counter
 from typing import Iterable
 
+import click
 import regex
 
 TOKEN_PATTERN = regex.compile("(?u)\\b\\w\\w+\\b")
@@ -14,25 +15,19 @@ def compte_mots(texte : Iterable[str]) -> Counter[str] :
 
     return res
 
-def main(): 
-    try : 
-        inpt = sys.argv[1]
-    except IndexError : 
-        print("Invalid command.")
-        return 
+@click.command()
+@click.argument("inpt")
+@click.argument("word", required=False)
+def main(inpt: str, word: str | None): 
     
     with open(inpt) as in_stream: 
         count = compte_mots(in_stream)
 
-    if len(sys.argv) == 3 : 
-        w = sys.argv[2]
-        print(f"{w}: {count[w]}")
-    elif len(sys.argv) == 2 : 
+    if word is not None : 
+        print(f"{word}: {count[word]}")
+    else:
         for w, c in count.most_common(16) : 
             print(f"{w}: {c}")
-    else : 
-        print("Invalid command.")
-
 
 
 
